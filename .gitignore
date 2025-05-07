@@ -1,0 +1,37 @@
+target/
+!**/src/main/**/target/
+!**/src/test/**/target/
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+!.idea/vcs.xml
+
+### VS Code ###
+.vscode/
+*.jar
+*.war
+*.ear
+*.class
+**/target/
+*.log
+**/log
+**/logs
+**/.project
+**/.classpath
+**/.factorypath
+**/.settings
+**/dependency-reduced-pom.xml
+*/conf/
+/sidecar/
+
+### macOS ###
+.DS_Store
+
+### JRebel ###
+rebel.xml
+rebel-remote.xml
+rebel.xml.*
+.rebel.*
