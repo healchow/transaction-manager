@@ -46,6 +46,9 @@
     <jakarta.annotation-api.version>2.1.1</jakarta.annotation-api.version>
     <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
 
+    <commons-lang3.version>3.13.0</commons-lang3.version>
+    <commons-collections.version>4.1</commons-collections.version>
+
     <knife4j-openapi3.version>4.5.0</knife4j-openapi3.version>
     <swagger-v3.version>2.2.19</swagger-v3.version>
 
@@ -159,6 +162,17 @@
         <groupId>jakarta.validation</groupId>
         <artifactId>jakarta.validation-api</artifactId>
         <version>${jakarta.validation-api.version}</version>
+      </dependency>
+
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-lang3</artifactId>
+        <version>${commons-lang3.version}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.apache.commons</groupId>
+        <artifactId>commons-collections4</artifactId>
+        <version>${commons-collections.version}</version>
       </dependency>
 
       <!-- knife4j and swagger -->
