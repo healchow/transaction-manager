@@ -18,6 +18,11 @@ public class Knife4jConfig {
         return createRestApi("System-Manager", "com.healchow.transaction.detail.web.controller.system");
     }
 
+    @Bean
+    public GroupedOpenApi detailApi() {
+        return createRestApi("Detail-Manager", "com.healchow.transaction.detail.web.controller.detail");
+    }
+
     /**
      * Create RestApi
      *
