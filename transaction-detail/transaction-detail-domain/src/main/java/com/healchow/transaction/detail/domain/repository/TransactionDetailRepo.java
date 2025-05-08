@@ -1,6 +1,7 @@
 package com.healchow.transaction.detail.domain.repository;
 
 import com.healchow.transaction.detail.domain.TransactionDetail;
+import com.healchow.transaction.detail.domain.page.PageInfo;
 
 /**
  * Transaction Detail Repository
@@ -24,6 +25,17 @@ public interface TransactionDetailRepo {
      * @return transaction detail
      */
     default TransactionDetail get(String tid) {
+        return null;
+    }
+
+    /**
+     * List transaction detail by pagination
+     *
+     * @param pageNum  page number
+     * @param pageSize page size
+     * @return transaction detail list
+     */
+    default PageInfo<TransactionDetail> list(int pageNum, int pageSize) {
         return null;
     }
 

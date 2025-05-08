@@ -1,5 +1,6 @@
 package com.healchow.transaction.detail.api;
 
+import com.healchow.transaction.detail.domain.page.PageInfo;
 import com.healchow.transaction.detail.request.CreateDetailRequest;
 import com.healchow.transaction.detail.request.UpdateDetailRequest;
 import com.healchow.transaction.detail.response.DetailResponse;
@@ -26,6 +27,16 @@ public interface DetailAppService {
      * @return transaction detail
      */
     DetailResponse get(String userId, String tid);
+
+    /**
+     * List transaction details
+     *
+     * @param userId   user id
+     * @param pageNum  current page number
+     * @param pageSize page size
+     * @return transaction details in page
+     */
+    PageInfo<DetailResponse> list(String userId, Integer pageNum, Integer pageSize);
 
     /**
      * Update transaction detail

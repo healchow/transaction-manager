@@ -1,6 +1,7 @@
 package com.healchow.transaction.detail.infra.repository;
 
 import com.healchow.transaction.detail.domain.TransactionDetail;
+import com.healchow.transaction.detail.domain.page.PageInfo;
 import com.healchow.transaction.detail.domain.repository.TransactionDetailRepo;
 import com.healchow.transaction.detail.infra.cache.MemoryCache;
 import jakarta.annotation.PostConstruct;
@@ -10,6 +11,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Memory repository for Transaction Detail
@@ -45,6 +47,18 @@ public class TransactionDetailMemoryRepo implements TransactionDetailRepo {
     @Override
     public TransactionDetail get(String tid) {
         return memoryCache.get(tid);
+    }
+
+    @Override
+    public PageInfo<TransactionDetail> list(int pageNum, int pageSize) {
+        int total = memoryCache.size();
+
+        // calculate the start and end index
+        int startIndex = (pageNum - 1) * pageSize;
+        int endIndex = Math.min(startIndex + pageSize, total);
+
+        List<TransactionDetail> list = memoryCache.list(startIndex, endIndex);
+        return new PageInfo<>(list, (long) total);
     }
 
     @Override

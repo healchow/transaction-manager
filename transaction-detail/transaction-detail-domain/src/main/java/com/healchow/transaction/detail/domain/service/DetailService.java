@@ -1,6 +1,7 @@
 package com.healchow.transaction.detail.domain.service;
 
 import com.healchow.transaction.detail.domain.TransactionDetail;
+import com.healchow.transaction.detail.domain.page.PageInfo;
 import com.healchow.transaction.detail.domain.repository.TransactionDetailRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -32,6 +33,17 @@ public class DetailService {
      */
     public TransactionDetail get(String tid) {
         return transactionDetailRepo.get(tid);
+    }
+
+    /**
+     * List transaction detail by pagination
+     *
+     * @param pageNum  page number
+     * @param pageSize page size
+     * @return transaction detail list
+     */
+    public PageInfo<TransactionDetail> list(int pageNum, int pageSize) {
+        return transactionDetailRepo.list(pageNum, pageSize);
     }
 
     /**

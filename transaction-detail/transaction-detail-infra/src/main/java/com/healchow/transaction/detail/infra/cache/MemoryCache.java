@@ -1,5 +1,7 @@
 package com.healchow.transaction.detail.infra.cache;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
@@ -60,6 +62,27 @@ public class MemoryCache<K, V> {
     }
 
     /**
+     * List values by the given start and end index
+     *
+     * @return list of values
+     */
+    public List<V> list(int startIndex, int endIndex) {
+        readLock.lock();
+        try {
+            List<V> allValues = new ArrayList<>(cache.values());
+            this.size();
+            endIndex = Math.min(endIndex, size.get());
+            if (allValues.size() <= startIndex) {
+                return new ArrayList<>();
+            }
+
+            return allValues.subList(startIndex, endIndex);
+        } finally {
+            readLock.unlock();
+        }
+    }
+
+    /**
      * Update value by the key.
      *
      * @param key   cached key
@@ -96,6 +119,11 @@ public class MemoryCache<K, V> {
         }
     }
 
+    /**
+     * Get the size of current cache.
+     *
+     * @return size of cached records
+     */
     public int size() {
         return size.get();
     }

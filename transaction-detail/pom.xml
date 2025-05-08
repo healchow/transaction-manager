@@ -47,7 +47,7 @@
     <jakarta.validation-api.version>3.0.2</jakarta.validation-api.version>
 
     <knife4j-openapi3.version>4.5.0</knife4j-openapi3.version>
-    <swagger-v3.version>2.2.9</swagger-v3.version>
+    <swagger-v3.version>2.2.19</swagger-v3.version>
 
     <slf4j.version>2.0.9</slf4j.version>
     <log4j2.version>2.20.0</log4j2.version>

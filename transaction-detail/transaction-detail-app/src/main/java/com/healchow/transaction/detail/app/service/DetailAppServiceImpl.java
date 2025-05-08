@@ -3,6 +3,7 @@ package com.healchow.transaction.detail.app.service;
 import com.healchow.transaction.detail.api.DetailAppService;
 import com.healchow.transaction.detail.app.assembler.TransactionDetailAssembler;
 import com.healchow.transaction.detail.domain.TransactionDetail;
+import com.healchow.transaction.detail.domain.page.PageInfo;
 import com.healchow.transaction.detail.domain.service.DetailService;
 import com.healchow.transaction.detail.domain.valueobj.TransactionStatus;
 import com.healchow.transaction.detail.domain.valueobj.TransactionType;
@@ -47,6 +48,22 @@ public class DetailAppServiceImpl implements DetailAppService {
             throw new RuntimeException("Transaction detail not found by tid: " + tid);
         }
         return TransactionDetailAssembler.createDetailResponse(detail);
+    }
+
+    @Override
+    public PageInfo<DetailResponse> list(String userId, Integer pageNum, Integer pageSize) {
+        if (pageNum < 1) {
+            pageNum = 1;
+        }
+        if (pageSize < 1 || pageSize > 100) {
+            pageSize = 10;
+        }
+
+        PageInfo<TransactionDetail> resultList = detailService.list(pageNum, pageSize);
+        resultList.setPageNum(pageNum);
+        resultList.setPageSize(pageSize);
+
+        return resultList.map(TransactionDetailAssembler::createDetailResponse);
     }
 
     @Override
