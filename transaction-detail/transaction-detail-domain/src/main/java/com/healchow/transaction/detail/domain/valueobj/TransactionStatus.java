@@ -37,6 +37,19 @@ public enum TransactionStatus {
     private static final Map<String, TransactionStatus> NAME_TYPE_MAP = Arrays.stream(TransactionStatus.values())
             .collect(Collectors.toMap(TransactionStatus::toString, status -> status));
 
+    private static final Map<Integer, TransactionStatus> CODE_TYPE_MAP = Arrays.stream(TransactionStatus.values())
+            .collect(Collectors.toMap(TransactionStatus::getCode, type -> type));
+
+    /**
+     * Get the instance by status code
+     *
+     * @param code status code
+     * @return enum instance
+     */
+    public static TransactionStatus ofCode(Integer code) {
+        return CODE_TYPE_MAP.getOrDefault(code, null);
+    }
+
     /**
      * Get the instance by status string
      *

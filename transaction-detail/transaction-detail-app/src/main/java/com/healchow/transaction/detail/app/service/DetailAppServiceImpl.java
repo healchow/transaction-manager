@@ -6,6 +6,7 @@ import com.healchow.transaction.detail.domain.TransactionDetail;
 import com.healchow.transaction.detail.domain.service.DetailService;
 import com.healchow.transaction.detail.domain.valueobj.TransactionStatus;
 import com.healchow.transaction.detail.request.CreateDetailRequest;
+import com.healchow.transaction.detail.response.DetailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +36,15 @@ public class DetailAppServiceImpl implements DetailAppService {
 
         TransactionDetail result = detailService.create(detail);
         return result.getTid();
+    }
+
+    @Override
+    public DetailResponse get(String userId, String tid) {
+        TransactionDetail detail = detailService.get(tid);
+        if (detail == null) {
+            throw new RuntimeException("Transaction detail not found by tid: " + tid);
+        }
+        return TransactionDetailAssembler.createDetailResponse(detail);
     }
 
     /**

@@ -23,4 +23,14 @@ public class DetailService {
     public TransactionDetail create(TransactionDetail detail) {
         return transactionDetailRepo.save(detail);
     }
+
+    /**
+     * Get transaction detail
+     *
+     * @param tid transaction id
+     * @return transaction detail
+     */
+    public TransactionDetail get(String tid) {
+        return transactionDetailRepo.get(tid);
+    }
 }

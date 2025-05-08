@@ -33,6 +33,19 @@ public enum TransactionType {
     private static final Map<String, TransactionType> NAME_TYPE_MAP = Arrays.stream(TransactionType.values())
             .collect(Collectors.toMap(TransactionType::toString, type -> type));
 
+    private static final Map<Integer, TransactionType> CODE_TYPE_MAP = Arrays.stream(TransactionType.values())
+            .collect(Collectors.toMap(TransactionType::getCode, type -> type));
+
+    /**
+     * Get the instance by type code
+     *
+     * @param code type code
+     * @return enum instance
+     */
+    public static TransactionType ofCode(Integer code) {
+        return CODE_TYPE_MAP.getOrDefault(code, null);
+    }
+
     /**
      * Get the instance by type string
      *

@@ -17,4 +17,13 @@ public interface TransactionDetailRepo {
         return null;
     }
 
+    /**
+     * Get transaction detail
+     *
+     * @param tid transaction id
+     * @return transaction detail
+     */
+    default TransactionDetail get(String tid) {
+        return null;
+    }
 }

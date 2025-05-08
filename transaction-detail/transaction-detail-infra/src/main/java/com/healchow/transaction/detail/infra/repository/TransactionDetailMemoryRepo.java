@@ -42,4 +42,9 @@ public class TransactionDetailMemoryRepo implements TransactionDetailRepo {
         return detail;
     }
 
+    @Override
+    public TransactionDetail get(String tid) {
+        return memoryCache.get(tid);
+    }
+
 }
