@@ -27,6 +27,28 @@ public class TransactionDetailAssembler {
         return detail;
     }
 
+    public static TransactionDetail copyDetail(TransactionDetail sourceDetail) {
+        if (sourceDetail == null) {
+            return null;
+        }
+
+        TransactionDetail detail = new TransactionDetail();
+        detail.setTid(sourceDetail.getTid());
+        detail.setUserId(sourceDetail.getUserId());
+        detail.setType(sourceDetail.getType());
+        detail.setAmount(sourceDetail.getAmount());
+        detail.setTimestamp(sourceDetail.getTimestamp());
+        detail.setStatus(sourceDetail.getStatus());
+        detail.setCounterparty(sourceDetail.getCounterparty());
+        detail.setAccountBalance(sourceDetail.getAccountBalance());
+        detail.setRemarks(sourceDetail.getRemarks());
+        detail.setDeviceInfo(sourceDetail.getDeviceInfo());
+        detail.setCreateTime(sourceDetail.getCreateTime());
+        detail.setUpdateTime(sourceDetail.getUpdateTime());
+
+        return detail;
+    }
+
     public static DetailResponse createDetailResponse(TransactionDetail transactionDetail) {
         if (transactionDetail == null) {
             return null;

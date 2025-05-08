@@ -60,6 +60,24 @@ public class MemoryCache<K, V> {
     }
 
     /**
+     * Update value by the key.
+     *
+     * @param key   cached key
+     * @param value value need to be updated
+     */
+    public void update(K key, V value) {
+        writeLock.lock();
+        try {
+            if (!cache.containsKey(key)) {
+                throw new RuntimeException(String.format("[%s] not exists", key));
+            }
+            cache.put(key, value);
+        } finally {
+            writeLock.unlock();
+        }
+    }
+
+    /**
      * Remove cache by the key.
      *
      * @param key cached key

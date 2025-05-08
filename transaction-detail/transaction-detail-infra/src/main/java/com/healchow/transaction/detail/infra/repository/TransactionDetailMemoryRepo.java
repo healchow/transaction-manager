@@ -47,4 +47,10 @@ public class TransactionDetailMemoryRepo implements TransactionDetailRepo {
         return memoryCache.get(tid);
     }
 
+    @Override
+    public TransactionDetail update(TransactionDetail entity) {
+        memoryCache.update(entity.getTid(), entity);
+        return entity;
+    }
+
 }

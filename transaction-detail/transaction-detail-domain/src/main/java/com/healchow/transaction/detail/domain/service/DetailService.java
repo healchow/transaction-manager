@@ -33,4 +33,14 @@ public class DetailService {
     public TransactionDetail get(String tid) {
         return transactionDetailRepo.get(tid);
     }
+
+    /**
+     * Update transaction detail
+     *
+     * @param detail transaction detail entity
+     * @return transaction detail after updating
+     */
+    public TransactionDetail update(TransactionDetail detail) {
+        return transactionDetailRepo.update(detail);
+    }
 }

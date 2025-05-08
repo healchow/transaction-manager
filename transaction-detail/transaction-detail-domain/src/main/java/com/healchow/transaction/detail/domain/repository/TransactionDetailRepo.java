@@ -26,4 +26,15 @@ public interface TransactionDetailRepo {
     default TransactionDetail get(String tid) {
         return null;
     }
+
+    /**
+     * Update the transaction detail
+     *
+     * @param entity entity to be updating
+     * @return entity after updating
+     */
+    default TransactionDetail update(TransactionDetail entity) {
+        return null;
+    }
+
 }

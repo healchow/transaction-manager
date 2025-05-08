@@ -2,6 +2,7 @@ package com.healchow.transaction.detail.web.controller.detail;
 
 import com.healchow.transaction.detail.api.DetailAppService;
 import com.healchow.transaction.detail.request.CreateDetailRequest;
+import com.healchow.transaction.detail.request.UpdateDetailRequest;
 import com.healchow.transaction.detail.response.DetailResponse;
 import com.healchow.transaction.detail.response.Response;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,6 +12,7 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -41,6 +43,12 @@ public class DetailController {
     @GetMapping(value = "/get/{tid}")
     public Response<DetailResponse> get(@PathVariable("tid") String tid) {
         return Response.success(detailAppService.get(MOCK_USER_ID, tid));
+    }
+
+    @Operation(summary = "Update-Detail")
+    @PutMapping(value = "/update")
+    public Response<String> update(@RequestBody @Validated UpdateDetailRequest request) {
+        return Response.success(detailAppService.update(MOCK_USER_ID, request));
     }
 
 }
