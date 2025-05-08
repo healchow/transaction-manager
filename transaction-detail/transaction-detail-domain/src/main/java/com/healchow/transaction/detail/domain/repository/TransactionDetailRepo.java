@@ -37,4 +37,13 @@ public interface TransactionDetailRepo {
         return null;
     }
 
+    /**
+     * Delete the transaction detail
+     *
+     * @param detail entity to be deleting
+     * @return entity after deleting
+     */
+    default TransactionDetail delete(TransactionDetail detail) {
+        return null;
+    }
 }

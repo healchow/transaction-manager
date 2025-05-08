@@ -35,4 +35,14 @@ public interface DetailAppService {
      * @return transaction id of updated detail
      */
     String update(String userId, UpdateDetailRequest request);
+
+    /**
+     * Delete transaction detail
+     *
+     * @param userId user id
+     * @param tid    transaction id
+     * @return deleted transaction detail
+     */
+    DetailResponse delete(String userId, String tid);
+
 }

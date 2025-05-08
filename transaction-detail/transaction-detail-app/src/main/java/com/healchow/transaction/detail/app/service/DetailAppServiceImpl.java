@@ -72,6 +72,22 @@ public class DetailAppServiceImpl implements DetailAppService {
         return result.getTid();
     }
 
+    @Override
+    public DetailResponse delete(String userId, String tid) {
+        // 1. get transaction detail
+        TransactionDetail existDetail = detailService.get(tid);
+        if (existDetail == null) {
+            throw new RuntimeException("Transaction detail not found by tid: " + tid);
+        }
+
+        // 2. check delete operation
+        checkDelete(userId, existDetail);
+
+        // 3. delete transaction detail
+        TransactionDetail deletedDetail = detailService.delete(existDetail);
+        return TransactionDetailAssembler.createDetailResponse(deletedDetail);
+    }
+
     /**
      * Generate transaction id, currently just generate a random UUID.
      *
@@ -95,6 +111,24 @@ public class DetailAppServiceImpl implements DetailAppService {
         if (existDetail.getStatus() == TransactionStatus.PENDING.getCode()
                 || existDetail.getStatus() == TransactionStatus.PROCESSING.getCode()) {
             throw new RuntimeException(String.format("Transaction [%s] was in [%s], cannot be updated",
+                    existDetail.getTid(), TransactionStatus.ofCode(existDetail.getStatus())));
+        }
+    }
+
+    /**
+     * Check delete operation is valid
+     *
+     * @param userId      user id
+     * @param existDetail exist detail
+     */
+    private void checkDelete(String userId, TransactionDetail existDetail) {
+        if (!userId.equals(existDetail.getUserId())) {
+            throw new RuntimeException("User " + userId + " has no permission to delete transaction detail");
+        }
+
+        if (existDetail.getStatus() == TransactionStatus.PENDING.getCode()
+                || existDetail.getStatus() == TransactionStatus.PROCESSING.getCode()) {
+            throw new RuntimeException(String.format("Transaction [%s] was in [%s], cannot be deleted",
                     existDetail.getTid(), TransactionStatus.ofCode(existDetail.getStatus())));
         }
     }

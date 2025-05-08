@@ -43,4 +43,14 @@ public class DetailService {
     public TransactionDetail update(TransactionDetail detail) {
         return transactionDetailRepo.update(detail);
     }
+
+    /**
+     * Delete transaction detail
+     *
+     * @param detail transaction detail entity
+     * @return transaction detail after deleting
+     */
+    public TransactionDetail delete(TransactionDetail detail) {
+        return transactionDetailRepo.delete(detail);
+    }
 }

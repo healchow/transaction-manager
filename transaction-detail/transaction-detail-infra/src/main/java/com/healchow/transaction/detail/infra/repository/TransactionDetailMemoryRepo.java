@@ -53,4 +53,9 @@ public class TransactionDetailMemoryRepo implements TransactionDetailRepo {
         return entity;
     }
 
+    @Override
+    public TransactionDetail delete(TransactionDetail detail) {
+        return memoryCache.remove(detail.getTid());
+    }
+
 }

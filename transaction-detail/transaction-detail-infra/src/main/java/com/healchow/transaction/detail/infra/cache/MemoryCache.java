@@ -82,12 +82,15 @@ public class MemoryCache<K, V> {
      *
      * @param key cached key
      */
-    public synchronized void remove(K key) {
+    public synchronized V remove(K key) {
         writeLock.lock();
         try {
-            if (cache.remove(key) != null) {
+            V value = cache.remove(key);
+            if (value != null) {
                 size.decrementAndGet();
             }
+
+            return value;
         } finally {
             writeLock.unlock();
         }
