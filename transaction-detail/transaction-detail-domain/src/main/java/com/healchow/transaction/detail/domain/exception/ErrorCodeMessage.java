@@ -17,6 +17,14 @@ public enum ErrorCodeMessage {
     USER_NOT_LOGGED_IN(2, "User is not logged in", "service.user.not-logged-in"),
 
     // ------------------------------------------------------------------------------------------------------------
+    //                                              Transaction Detail Error Codes
+    //                                              Format: detail.xx.xx...
+    // ------------------------------------------------------------------------------------------------------------
+    DETAIL_NOT_FOUND(100, "Transaction detail not found", "detail.not-found"),
+    DETAIL_OPT_NO_PERMISSION(101, "No permission to operate the transaction detail", "detail.operate.no-permission"),
+    DETAIL_OPT_STATUS_REJECTS(102, "Current status rejects operate the transaction detail", "detail.operate.status-rejects"),
+
+    // ------------------------------------------------------------------------------------------------------------
     //                                              Other Error Codes
     // ------------------------------------------------------------------------------------------------------------
 

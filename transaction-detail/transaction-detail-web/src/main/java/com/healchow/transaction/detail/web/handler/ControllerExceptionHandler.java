@@ -133,7 +133,7 @@ public class ControllerExceptionHandler {
         }
 
         public Response<String> toResponse() {
-            return Response.fail(code, getStackTraceAsString(rawValue));
+            return Response.fail(code, rawValue.getLocalizedMessage());
         }
     }
 

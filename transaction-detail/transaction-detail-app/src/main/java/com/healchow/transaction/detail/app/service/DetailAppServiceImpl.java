@@ -4,6 +4,8 @@ import com.healchow.transaction.detail.api.DetailAppService;
 import com.healchow.transaction.detail.app.assembler.TransactionDetailAssembler;
 import com.healchow.transaction.detail.app.event.TransactionProcessEvent;
 import com.healchow.transaction.detail.domain.TransactionDetail;
+import com.healchow.transaction.detail.domain.exception.ErrorCodeMessage;
+import com.healchow.transaction.detail.domain.exception.ServiceException;
 import com.healchow.transaction.detail.domain.page.PageInfo;
 import com.healchow.transaction.detail.domain.service.DetailService;
 import com.healchow.transaction.detail.domain.valueobj.TransactionStatus;
@@ -48,8 +50,13 @@ public class DetailAppServiceImpl implements DetailAppService {
     public DetailResponse get(String userId, String tid) {
         TransactionDetail detail = detailService.get(tid);
         if (detail == null) {
-            throw new RuntimeException("Transaction detail not found by tid: " + tid);
+            throw ServiceException.fromErrorCodeAndArgs(ErrorCodeMessage.DETAIL_NOT_FOUND, tid);
         }
+        // TODO Use the real user ID
+        /*if (!userId.equals(detail.getOwnUserId())) {
+            throw ServiceException.fromErrorCodeAndArgs(ErrorCodeMessage.DETAIL_OPT_NO_PERMISSION, userId, "Get");
+        }*/
+
         return TransactionDetailAssembler.createDetailResponse(detail);
     }
 
@@ -74,7 +81,7 @@ public class DetailAppServiceImpl implements DetailAppService {
         // 1. get transaction detail
         TransactionDetail existDetail = detailService.get(request.getTid());
         if (existDetail == null) {
-            throw new RuntimeException("Transaction detail not found by tid: " + request.getTid());
+            throw ServiceException.fromErrorCodeAndArgs(ErrorCodeMessage.DETAIL_NOT_FOUND, request.getTid());
         }
 
         // 2. check update operation
@@ -97,7 +104,7 @@ public class DetailAppServiceImpl implements DetailAppService {
         // 1. get transaction detail
         TransactionDetail existDetail = detailService.get(tid);
         if (existDetail == null) {
-            throw new RuntimeException("Transaction detail not found by tid: " + tid);
+            throw ServiceException.fromErrorCodeAndArgs(ErrorCodeMessage.DETAIL_NOT_FOUND, tid);
         }
 
         // 2. check delete operation
@@ -124,13 +131,13 @@ public class DetailAppServiceImpl implements DetailAppService {
      * @param existDetail exist detail
      */
     private void checkUpdate(String userId, TransactionDetail existDetail) {
-        if (!userId.equals(existDetail.getOwnUserId())) {
-            throw new RuntimeException("User " + userId + " has no permission to update transaction detail");
-        }
+        // TODO Use the real user ID
+        /*if (!userId.equals(existDetail.getOwnUserId())) {
+            throw ServiceException.fromErrorCodeAndArgs(ErrorCodeMessage.DETAIL_OPT_NO_PERMISSION, userId, "Update");
+        }*/
 
         if (existDetail.getStatus() == TransactionStatus.PROCESSING.getCode()) {
-            throw new RuntimeException(String.format("Transaction [%s] was in [%s], cannot be updated",
-                    existDetail.getTid(), TransactionStatus.ofCode(existDetail.getStatus())));
+            throw ServiceException.fromErrorCodeAndArgs(ErrorCodeMessage.DETAIL_OPT_STATUS_REJECTS, TransactionStatus.PROCESSING, "Update");
         }
     }
 
@@ -141,13 +148,13 @@ public class DetailAppServiceImpl implements DetailAppService {
      * @param existDetail exist detail
      */
     private void checkDelete(String userId, TransactionDetail existDetail) {
-        if (!userId.equals(existDetail.getOwnUserId())) {
-            throw new RuntimeException("User " + userId + " has no permission to delete transaction detail");
-        }
+        // TODO Use the real user ID
+        /*if (!userId.equals(existDetail.getOwnUserId())) {
+            throw ServiceException.fromErrorCodeAndArgs(ErrorCodeMessage.DETAIL_OPT_NO_PERMISSION, userId, "Delete");
+        }*/
 
         if (existDetail.getStatus() == TransactionStatus.PROCESSING.getCode()) {
-            throw new RuntimeException(String.format("Transaction [%s] was in [%s], cannot be deleted",
-                    existDetail.getTid(), TransactionStatus.ofCode(existDetail.getStatus())));
+            throw ServiceException.fromErrorCodeAndArgs(ErrorCodeMessage.DETAIL_OPT_STATUS_REJECTS, TransactionStatus.PROCESSING, "Delete");
         }
     }
 

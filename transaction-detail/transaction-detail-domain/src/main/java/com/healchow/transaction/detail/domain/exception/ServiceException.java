@@ -22,49 +22,18 @@ public class ServiceException extends RuntimeException {
      */
     private final Object[] args;
 
-    private final Object data;
-
     public ServiceException(ErrorCodeMessage codeMessage) {
-        this(codeMessage, null, null, null);
-    }
-
-    /**
-     * This String message will not be appended as args to the internationalized information of ErrorCodeMessage
-     */
-    public ServiceException(ErrorCodeMessage codeMessage, String message) {
-        this(codeMessage, null, message, new Object[]{message});
+        this(codeMessage, null, null);
     }
 
     public ServiceException(ErrorCodeMessage codeMessage, Throwable cause) {
-        this(codeMessage, cause, null, null);
+        this(codeMessage, cause, null);
     }
 
-    /**
-     * Build default exception information with the specified message
-     *
-     * @param message Exception description
-     * @apiNote Since the default ErrorCodeMessage needs to fill the placeholder for the exception reason, the message needs to be passed as an internationalization parameter
-     */
-    public ServiceException(String message) {
-        this(ErrorCodeMessage.DEFAULT_ERROR, null, message, new Object[]{message});
-    }
-
-    /**
-     * Build default exception information with the specified exception stack and exception description
-     *
-     * @param message Exception description
-     * @param cause Exception stack
-     * @apiNote Since the default ErrorCodeMessage needs to fill the placeholder for the exception reason, the message needs to be passed as an internationalization parameter
-     */
-    public ServiceException(String message, Throwable cause) {
-        this(ErrorCodeMessage.DEFAULT_ERROR, cause, message, new Object[]{message});
-    }
-
-    private ServiceException(ErrorCodeMessage codeMessage, Throwable cause, String data, Object[] args) {
-        super(data == null ? codeMessage.getDescription() : codeMessage.getDescription() + ", info: " + data, cause);
+    private ServiceException(ErrorCodeMessage codeMessage, Throwable cause, Object[] args) {
+        super(codeMessage.getDescription(), cause);
         this.code = codeMessage.getCode();
         this.i18n = codeMessage.getI18n();
-        this.data = data;
         this.args = args;
     }
 
@@ -75,8 +44,8 @@ public class ServiceException extends RuntimeException {
      * @param args Parameters in the internationalized description information
      * @return Exception information
      */
-    public static ServiceException createWithCodeAndArgs(ErrorCodeMessage codeMessage, Object... args) {
-        return new ServiceException(codeMessage, null, null, args);
+    public static ServiceException fromErrorCodeAndArgs(ErrorCodeMessage codeMessage, Object... args) {
+        return new ServiceException(codeMessage, null, args);
     }
 
 }
