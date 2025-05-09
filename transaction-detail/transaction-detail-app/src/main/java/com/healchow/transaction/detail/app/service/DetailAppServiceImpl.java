@@ -96,6 +96,10 @@ public class DetailAppServiceImpl implements DetailAppService {
 
         // 4. save transaction detail
         TransactionDetail result = detailService.update(targetDetail);
+
+        // TODO Support transaction update event
+        // applicationContext.publishEvent(new TransactionUpdateEvent(this, existDetail, targetDetail));
+
         return result.getTid();
     }
 
@@ -112,6 +116,9 @@ public class DetailAppServiceImpl implements DetailAppService {
 
         // 3. delete transaction detail
         TransactionDetail deletedDetail = detailService.delete(existDetail);
+
+        // TODO Support transaction delete event
+        // applicationContext.publishEvent(new TransactionDeleteEvent(this, existDetail));
         return TransactionDetailAssembler.createDetailResponse(deletedDetail);
     }
 
