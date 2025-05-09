@@ -19,9 +19,9 @@ public enum TransactionType {
 
     WITHDRAWAL(2),
 
-    TRANSFER(3),
+    TRANSFER_IN(3),
 
-    PAYMENT(4),
+    TRANSFER_OUT(4),
 
     ;
 

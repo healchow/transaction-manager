@@ -19,10 +19,13 @@ public class TransactionDetailAssembler {
         TransactionDetail detail = new TransactionDetail();
         detail.setType(TransactionType.ofName(request.getType()).getCode());
         detail.setAmount(request.getAmount());
-        detail.setTimestamp(request.getTimestamp());
-        detail.setCounterparty(request.getCounterparty());
+        detail.setOwnUserId(request.getOwnUserId());
+        detail.setCounterpartyUserId(request.getCounterpartyUserId());
+        detail.setOwnAccount(request.getOwnAccount());
+        detail.setCounterpartyAccount(request.getCounterpartyAccount());
         detail.setRemarks(request.getRemarks());
         detail.setDeviceInfo(request.getDeviceInfo());
+        detail.setTimestamp(request.getTimestamp());
 
         return detail;
     }
@@ -34,15 +37,17 @@ public class TransactionDetailAssembler {
 
         TransactionDetail detail = new TransactionDetail();
         detail.setTid(sourceDetail.getTid());
-        detail.setUserId(sourceDetail.getUserId());
         detail.setType(sourceDetail.getType());
         detail.setAmount(sourceDetail.getAmount());
-        detail.setTimestamp(sourceDetail.getTimestamp());
         detail.setStatus(sourceDetail.getStatus());
-        detail.setCounterparty(sourceDetail.getCounterparty());
+        detail.setOwnUserId(sourceDetail.getOwnUserId());
+        detail.setOwnAccount(sourceDetail.getOwnAccount());
+        detail.setCounterpartyUserId(sourceDetail.getCounterpartyUserId());
+        detail.setCounterpartyAccount(sourceDetail.getCounterpartyAccount());
         detail.setAccountBalance(sourceDetail.getAccountBalance());
         detail.setRemarks(sourceDetail.getRemarks());
         detail.setDeviceInfo(sourceDetail.getDeviceInfo());
+        detail.setTimestamp(sourceDetail.getTimestamp());
         detail.setCreateTime(sourceDetail.getCreateTime());
         detail.setUpdateTime(sourceDetail.getUpdateTime());
 
@@ -59,11 +64,14 @@ public class TransactionDetailAssembler {
         response.setType(TransactionType.ofCode(transactionDetail.getType()).toString());
         response.setStatus(TransactionStatus.ofCode(transactionDetail.getStatus()).toString());
         response.setAmount(transactionDetail.getAmount());
-        response.setTimestamp(transactionDetail.getTimestamp());
-        response.setCounterparty(transactionDetail.getCounterparty());
+        response.setOwnUserId(transactionDetail.getOwnUserId());
+        response.setOwnAccount(transactionDetail.getOwnAccount());
+        response.setCounterpartyUserId(transactionDetail.getCounterpartyUserId());
+        response.setCounterpartyAccount(transactionDetail.getCounterpartyAccount());
         response.setAccountBalance(transactionDetail.getAccountBalance());
         response.setRemarks(transactionDetail.getRemarks());
         response.setDeviceInfo(transactionDetail.getDeviceInfo());
+        response.setTimestamp(transactionDetail.getTimestamp());
         return response;
     }
 }

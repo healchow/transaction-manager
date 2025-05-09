@@ -17,11 +17,11 @@ public enum TransactionStatus {
 
     FAILED(2),
 
-    PENDING(3),
+    PROCESSING(3),
 
-    PROCESSING(4),
+    CANCELLED(4),
 
-    REVOKED(5),
+    REJECTED(5),
 
     ;
 

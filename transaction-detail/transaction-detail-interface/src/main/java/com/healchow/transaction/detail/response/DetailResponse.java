@@ -24,11 +24,17 @@ public class DetailResponse {
     @Schema(description = "Transaction amount")
     private BigDecimal amount;
 
-    @Schema(description = "Timestamp of transaction occurrence")
-    private Long timestamp;
+    @Schema(description = "Own user ID")
+    private String ownUserId;
+
+    @Schema(description = "Own account")
+    private String ownAccount;
+
+    @Schema(description = "Counterparty user ID")
+    private String counterpartyUserId;
 
     @Schema(description = "Counterparty account")
-    private String counterparty;
+    private String counterpartyAccount;
 
     @Schema(description = "Account balance")
     private BigDecimal accountBalance;
@@ -38,4 +44,7 @@ public class DetailResponse {
 
     @Schema(description = "Device metadata")
     private String deviceInfo;
+
+    @Schema(description = "Timestamp of transaction occurrence")
+    private Long timestamp;
 }

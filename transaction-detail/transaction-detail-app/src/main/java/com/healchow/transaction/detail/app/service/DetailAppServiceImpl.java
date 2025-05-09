@@ -2,6 +2,7 @@ package com.healchow.transaction.detail.app.service;
 
 import com.healchow.transaction.detail.api.DetailAppService;
 import com.healchow.transaction.detail.app.assembler.TransactionDetailAssembler;
+import com.healchow.transaction.detail.app.event.TransactionProcessEvent;
 import com.healchow.transaction.detail.domain.TransactionDetail;
 import com.healchow.transaction.detail.domain.page.PageInfo;
 import com.healchow.transaction.detail.domain.service.DetailService;
@@ -11,6 +12,7 @@ import com.healchow.transaction.detail.request.CreateDetailRequest;
 import com.healchow.transaction.detail.request.UpdateDetailRequest;
 import com.healchow.transaction.detail.response.DetailResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
 import org.springframework.stereotype.Service;
 
 import java.util.UUID;
@@ -24,20 +26,21 @@ public class DetailAppServiceImpl implements DetailAppService {
     @Autowired
     private DetailService detailService;
 
+    @Autowired
+    private ApplicationContext applicationContext;
+
     @Override
     public String create(String userId, CreateDetailRequest request) {
         TransactionDetail detail = TransactionDetailAssembler.createDetail(request);
 
-        // set user id
-        detail.setUserId(userId);
-
         // generate transaction id
         detail.setTid(genTransactionId());
-
         // set status to processing, after processed, status will be updated
         detail.setStatus(TransactionStatus.PROCESSING.getCode());
-
         TransactionDetail result = detailService.create(detail);
+
+        applicationContext.publishEvent(new TransactionProcessEvent(this, detail));
+
         return result.getTid();
     }
 
@@ -117,16 +120,15 @@ public class DetailAppServiceImpl implements DetailAppService {
     /**
      * Check update request is valid
      *
-     * @param userId      user id
+     * @param userId user id
      * @param existDetail exist detail
      */
     private void checkUpdate(String userId, TransactionDetail existDetail) {
-        if (!userId.equals(existDetail.getUserId())) {
+        if (!userId.equals(existDetail.getOwnUserId())) {
             throw new RuntimeException("User " + userId + " has no permission to update transaction detail");
         }
 
-        if (existDetail.getStatus() == TransactionStatus.PENDING.getCode()
-                || existDetail.getStatus() == TransactionStatus.PROCESSING.getCode()) {
+        if (existDetail.getStatus() == TransactionStatus.PROCESSING.getCode()) {
             throw new RuntimeException(String.format("Transaction [%s] was in [%s], cannot be updated",
                     existDetail.getTid(), TransactionStatus.ofCode(existDetail.getStatus())));
         }
@@ -135,16 +137,15 @@ public class DetailAppServiceImpl implements DetailAppService {
     /**
      * Check delete operation is valid
      *
-     * @param userId      user id
+     * @param userId user id
      * @param existDetail exist detail
      */
     private void checkDelete(String userId, TransactionDetail existDetail) {
-        if (!userId.equals(existDetail.getUserId())) {
+        if (!userId.equals(existDetail.getOwnUserId())) {
             throw new RuntimeException("User " + userId + " has no permission to delete transaction detail");
         }
 
-        if (existDetail.getStatus() == TransactionStatus.PENDING.getCode()
-                || existDetail.getStatus() == TransactionStatus.PROCESSING.getCode()) {
+        if (existDetail.getStatus() == TransactionStatus.PROCESSING.getCode()) {
             throw new RuntimeException(String.format("Transaction [%s] was in [%s], cannot be deleted",
                     existDetail.getTid(), TransactionStatus.ofCode(existDetail.getStatus())));
         }
