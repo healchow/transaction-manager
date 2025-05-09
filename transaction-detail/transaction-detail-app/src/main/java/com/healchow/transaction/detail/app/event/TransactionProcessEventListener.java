@@ -66,7 +66,7 @@ public class TransactionProcessEventListener implements ApplicationListener<Tran
      *
      * @param detail transaction detail
      */
-    private void doDeposit(TransactionDetail detail) {
+    protected void doDeposit(TransactionDetail detail) {
         try {
             BigDecimal accountBalance = detail.getAccountBalance();
             if (accountBalance == null) {
@@ -91,7 +91,7 @@ public class TransactionProcessEventListener implements ApplicationListener<Tran
      *
      * @param detail transaction detail
      */
-    private void doWithdrawal(TransactionDetail detail) {
+    protected void doWithdrawal(TransactionDetail detail) {
         try {
             BigDecimal accountBalance = detail.getAccountBalance();
             if (accountBalance == null) {
@@ -123,7 +123,7 @@ public class TransactionProcessEventListener implements ApplicationListener<Tran
      * @param detail transaction detail
      * @apiNote Initiated incoming transactions are not supported, change the status to rejected directly.
      */
-    private void doTransferIn(TransactionDetail detail) {
+    protected void doTransferIn(TransactionDetail detail) {
         detail.setStatus(TransactionStatus.REJECTED.getCode());
         String msg = "Initiated incoming transactions are not supported";
         log.error("{} for tid [{}]", msg, detail.getTid());
@@ -138,7 +138,7 @@ public class TransactionProcessEventListener implements ApplicationListener<Tran
      * @param detail transaction detail
      * @apiNote The transfer-out and transfer-in operations should be performed within a single transaction.
      */
-    private void doPaymentOut(TransactionDetail detail) {
+    protected void doTransferOut(TransactionDetail detail) {
         String counterparty = detail.getCounterpartyAccount();
         try {
             // 1. check if the balance is sufficient
