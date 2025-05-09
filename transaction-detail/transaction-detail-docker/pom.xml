@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+  <parent>
+    <groupId>com.healchow.transaction</groupId>
+    <artifactId>transaction-detail</artifactId>
+    <version>1.0.0</version>
+  </parent>
+
+  <artifactId>transaction-detail-docker</artifactId>
+  <description>Transaction Detail - Docker</description>
+
+  <dependencies>
+    <!-- copy transaction-detail-web.tar.gz to the transaction-detail-docker/target path -->
+    <dependency>
+      <groupId>com.healchow.transaction</groupId>
+      <artifactId>transaction-detail-web</artifactId>
+      <version>${project.version}</version>
+      <classifier>bin</classifier>
+      <type>tar.gz</type>
+      <scope>provided</scope>
+    </dependency>
+  </dependencies>
+
+  <profiles>
+    <profile>
+      <!-- Currently only support i386,x86_64 architecture, not support 'arm64e' or 'arm64' -->
+      <id>docker</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>com.spotify</groupId>
+            <artifactId>dockerfile-maven-plugin</artifactId>
+            <version>${dockerfile.maven.version}</version>
+            <configuration>
+              <repository>healchow/transaction-detail</repository>
+              <pullNewerImage>false</pullNewerImage>
+              <tag>${project.version}</tag>
+              <buildArgs>
+                <VERSION>${project.version}</VERSION>
+              </buildArgs>
+            </configuration>
+            <executions>
+              <execution>
+                <id>default</id>
+                <goals>
+                  <goal>build</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-tarball</id>
+                <goals>
+                  <goal>copy-dependencies</goal>
+                </goals>
+                <phase>generate-resources</phase>
+                <configuration>
+                  <outputDirectory>target/</outputDirectory>
+                  <includeArtifactIds>transaction-detail-web</includeArtifactIds>
+                  <excludeTransitive>true</excludeTransitive>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+
+    <profile>
+      <id>docker-arm64</id>
+      <build>
+        <plugins>
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-dependency-plugin</artifactId>
+            <executions>
+              <execution>
+                <id>copy-tarball</id>
+                <goals>
+                  <goal>copy-dependencies</goal>
+                </goals>
+                <phase>generate-resources</phase>
+                <configuration>
+                  <outputDirectory>target/</outputDirectory>
+                  <includeArtifactIds>transaction-detail-web</includeArtifactIds>
+                  <excludeTransitive>true</excludeTransitive>
+                </configuration>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>

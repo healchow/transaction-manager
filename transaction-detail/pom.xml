@@ -24,6 +24,7 @@
     <module>transaction-detail-app</module>
     <module>transaction-detail-interface</module>
     <module>transaction-detail-web</module>
+    <module>transaction-detail-docker</module>
   </modules>
 
   <properties>
@@ -58,6 +59,7 @@
 
     <maven-jar-plugin.version>3.0.2</maven-jar-plugin.version>
     <maven-surefire-plugin.version>3.0.0-M5</maven-surefire-plugin.version>
+    <dockerfile.maven.version>1.4.13</dockerfile.maven.version>
   </properties>
 
   <dependencyManagement>

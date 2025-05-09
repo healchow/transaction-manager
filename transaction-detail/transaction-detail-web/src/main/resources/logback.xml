@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+  <statusListener class="ch.qos.logback.core.status.NopStatusListener"/>
+
+  <property name="encoding" value="UTF-8"/>
+
+  <!-- print package, class and code line number -->
+  <!-- %date is yyyy-MM-dd HH:mm:ss,SSS -->
+  <property name="consoleLogPattern"
+            value="%d{yyyy-MM-dd HH:mm:ss.SSS} %highlight([%-5level]) %boldMagenta([%thread][%X{X-Trace-ID}]) %cyan(%logger{15}.%M:%L) - %message%n"/>
+  <!-- Other appender besides ConsoleAppender may not support font color, bold styling, etc. -->
+  <property name="fileLogPattern" value="%d{yyyy-MM-dd HH:mm:ss.SSS} [%-5level] [%thread][%X{X-Trace-ID}] %logger{15}.%M:%L - %message%n"/>
+  <property name="logFile" value="logs/web-all.log"/>
+
+  <!-- logback graceful shutdown (for async appender)  -->
+  <shutdownHook class="ch.qos.logback.core.hook.DelayingShutdownHook"/>
+
+  <!-- Appender -->
+  <appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>${consoleLogPattern}</pattern>
+      <charset>${encoding}</charset>
+    </encoder>
+  </appender>
+
+  <appender name="FILE" class="ch.qos.logback.core.rolling.RollingFileAppender">
+    <file>${logFile}</file>
+    <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+      <fileNamePattern>${logFile}.%d{yyyy-MM-dd-HH}.log</fileNamePattern>
+      <maxHistory>72</maxHistory>
+    </rollingPolicy>
+    <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+      <pattern>${fileLogPattern}</pattern>
+      <charset>${encoding}</charset>
+    </encoder>
+  </appender>
+
+  <!-- Config -->
+  <root level="INFO">
+    <appender-ref ref="FILE"/>
+    <appender-ref ref="CONSOLE"/>
+  </root>
+
+  <Logger name="ch.qos.logback" level="warn" additivity="false">
+    <appender-ref ref="FILE"/>
+    <appender-ref ref="CONSOLE"/>
+  </Logger>
+</configuration>
