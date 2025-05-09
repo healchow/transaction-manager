@@ -77,9 +77,31 @@
       <resource>
         <directory>src/main/resources</directory>
       </resource>
+      <!-- Filter script files to bin directory -->
+      <resource>
+        <targetPath>bin</targetPath>
+        <filtering>true</filtering>
+        <directory>bin</directory>
+      </resource>
     </resources>
 
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <configuration>
+          <!-- Project startup jar package excluded directory -->
+          <excludes>
+            <exclude>*.xml</exclude>
+            <exclude>*.yml</exclude>
+            <exclude>*.properties</exclude>
+            <exclude>bin/**</exclude>
+            <exclude>conf/**</exclude>
+            <exclude>logs/**</exclude>
+          </excludes>
+        </configuration>
+      </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-dependency-plugin</artifactId>
@@ -100,6 +122,48 @@
               <excludeArtifactIds>
                 spring-test,spring-boot-test,spring-boot-starter-test
               </excludeArtifactIds>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <phase>prepare-package</phase>
+            <configuration>
+              <!-- Resource file output directory -->
+              <outputDirectory>target/conf</outputDirectory>
+              <resources>
+                <resource>
+                  <directory>src/main/resources</directory>
+                </resource>
+              </resources>
+            </configuration>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-assembly-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>dist</id>
+            <goals>
+              <goal>single</goal>
+            </goals>
+            <phase>package</phase>
+            <configuration>
+              <finalName>${project.artifactId}-${project.version}</finalName>
+              <descriptors>
+                <descriptor>assembly.xml</descriptor>
+              </descriptors>
             </configuration>
           </execution>
         </executions>
