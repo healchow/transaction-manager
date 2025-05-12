@@ -1,4 +1,4 @@
-# Project Description
+# Project Description [中文版本](./README.md)
 
 This project is a simple transaction management service that currently supports creating, querying, listing, updating, and deleting transaction details.
 
@@ -29,6 +29,8 @@ Technology Stack: SpringBoot 3.2.3
 
 Data Persistence Layer: No database is used yet; only in-memory caching is used to store data.
 
+> In the future, databases such as MySQL may be used to store data. This project supports the ability to extend the caching layer through plugins, which can be controlled via the `service.storage.type` parameter.
+
 ## Architecture Overview
 
 This service is developed based on the SpringBoot 3.2.3 framework, using Spring's event listening mechanism to asynchronously handle deposit, withdrawal, and transfer transactions, improving the throughput of the transaction system.
@@ -39,23 +41,34 @@ In terms of deployment tools, this service supports:
 
 - Deployment by building Docker images and running Docker containers. Refer to: [Deploying via Docker](./transaction-detail/transaction-detail-docker/README.md)
 
+## Main API Description
+
+| API Name | Description                   | Request Method | Access URL                                   |
+|----------|-------------------------------|----------------|----------------------------------------------|
+| Create   | Create transaction detail     | POST           | http://127.0.0.1:8080/v1/detail/create       |
+| Query    | Query transaction detail      | GET            | http://127.0.0.1:8080/v1/detail/get/{tid}    |
+| List     | Query transaction detail list | GET            | http://127.0.0.1:8080/v1/detail/list         |
+| Update   | Update transaction detail     | PUT            | http://127.0.0.1:8080/v1/detail/update       |
+| Delete   | Delete transaction detail     | DELETE         | http://127.0.0.1:8080/v1/detail/delete/{tid} |
+
+
 ## Main Third-Party Dependencies
 
-| Main Dependency           | Purpose                                                                 |
-| ------------------------- | ----------------------------------------------------------------------- |
-| spring-boot-*            | Core dependencies of Spring Boot, including auto-configuration, dependency injection, embedded Tomcat, etc. |
-| spring-*                 | Core functionality of the Spring framework and Spring MVC                |
+| Main Dependency          | Purpose                                                                                                      |
+| ------------------------ |--------------------------------------------------------------------------------------------------------------|
+| spring-boot-*            | Core dependencies of Spring Boot, including auto-configuration, dependency injection, embedded Tomcat, etc.  |
+| spring-*                 | Core functionality of the Spring framework and Spring MVC                                                    |
 | lombok                   | Simplifies Java code through annotations, such as automatically generating Getter/Setter, constructors, etc. |
-| httpclient5              | Apache HttpClient 5, providing HTTP client functionality for sending HTTP requests |
-| jackson-*                | Provides JSON parsing and generation, annotations, and binding between JSON and Java objects |
-| jakarta-*                | Provides Servlet API, annotation support, and Bean validation functionality |
-| commons-*                | Provides commonly used string processing and collection utility classes |
-| knife4j-openapi3-*       | Provides API documentation generation and display functionality         |
-| swagger-annotations      | Provides Swagger annotation support for generating API documentation    |
-| slf4j-api                | Provides a logging facade interface                                     |
-| log4j-*                  | Provides Log4j 2 related functionality                                 |
-| spring-boot-starter-test | Provides Spring Boot testing support, such as unit tests, integration tests, etc. |
-| mockito-core             | Provides Mock object support for unit testing                          |
+| httpclient5              | Apache HttpClient 5, providing HTTP client functionality for sending HTTP requests                           |
+| jackson-*                | Provides JSON parsing and generation, annotations, and binding between JSON and Java objects                 |
+| jakarta-*                | Provides Servlet API, annotation support, and Bean validation functionality                                  |
+| commons-*                | Provides commonly used string processing and collection utility classes                                      |
+| knife4j-openapi3-*       | Provides API documentation generation and display functionality                                              |
+| swagger-annotations      | Provides Swagger annotation support for generating API documentation                                         |
+| slf4j-api                | Provides a logging facade interface                                                                          |
+| log4j-*                  | Provides Log4j 2 related functionality                                                                       |
+| spring-boot-starter-test | Provides Spring Boot testing support, such as unit tests, integration tests, etc.                            |
+| mockito-core             | Provides Mock object support for unit testing                                                                |
 
 # Service Performance Test
 
@@ -63,11 +76,11 @@ To evaluate the main interfaces in the high-concurrency scenario, find the perfo
 
 ## Stress Test Environment
 
-| Environment Information | Details                                                                                |
-|-------------------------|---------------------------------------------------------------------------------------|
-| Server Hardware         | - CPU: [Specific Model] <br/> - Memory: [Specific Capacity] <br/> - Disk: SSD          |
-| Server Software         | - Operating System: [Specific System] <br/> - Web Server: Tomcat <br/> - Database: LPDDR5 Memory |
-| Network Environment     | Local direct access, latency within 1ms                                               |
+| Environment Information | Details                                                                                                              |
+|-------------------------|----------------------------------------------------------------------------------------------------------------------|
+| Server Hardware         | - CPU: Apple M1 Pro <br/> - Memory: 8G <br/> - Disk: SSD                                                             |
+| Server Software         | - Operating System: Debian GNU/Linux 12 (bookworm) <br/> - Web Server: Tomcat 10.1.9 <br/> - Database: LPDDR5 Memory |
+| Network Environment     | Local direct access, latency within 1ms                                                                              |
 
 ## Stress Test Tool
 
